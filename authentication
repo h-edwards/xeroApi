@@ -24,7 +24,7 @@ function getAuth () {
       headers: {
         'authorization': 'Bearer ' + service.getAccessToken(),
         'payload' : options,
-        'Xero-Correlation-Id' : XERO_TENANT_ID
+        'Xero-Tenant-Id' : XERO_TENANT_ID
       }
     });
     var result = JSON.parse(response.getContentText());
