@@ -6,50 +6,24 @@ var redirect_uri = OAuth2.getRedirectUri()
 // Logger.log(redirect_uri);
 
 
-var options = {
-  'grant-type': 'authorization_code',
-  'redirect-uri': redirect_uri,
-  'content-type': 'application/x-www-form-urlencoded',
-  'code': 'dfd1c90a04dca24af48d6782079a859c1d4fd09d5b1934axxxxxxxxxxx'
-};
-
-
 // Authorise request to Xero //
 
 function getAuth () {
   var service = getService();
   if (service.hasAccess()) {
-    var url = 'https://api.xero.com/payroll.xro/2.0/employees';
-    var response = UrlFetchApp.fetch(url, {muteHttpExceptions: true,
+  var url = 'https://api.xero.com/payroll.xro/2.0/Employees';
+  var response = UrlFetchApp.fetch(url, { muteHttpExceptions: true,
       headers: {
         'authorization': 'Bearer ' + service.getAccessToken(),
-        'payload' : options,
-        'Xero-Tenant-Id' : XERO_TENANT_ID
-      }
-    });
+        'accept': 'application/json',
+        'tenantId': XERO_TENANT_ID
+      }});
     var result = JSON.parse(response.getContentText());
     Logger.log(JSON.stringify(result, null, 2));
   } else {
     var authorizationUrl = service.getAuthorizationUrl();
     Logger.log('Open the following URL and re-run the script: %s',authorizationUrl);
   }
-}
-
-
-// Call the API //
-
-function apiCall () {
-  var url = 'https://api.xero.com/payroll.xro/2.0/Employees';
-  var response = UrlFetchApp.fetch(url, {
-      headers: {
-        Accept: application/json,
-        Xero_tenant_id: XERO_TENANT_ID,
-        Grant_type: 'authorization_code',
-        Authorization: 'Bearer ' + access_token
-      }
-    });
-    var result = JSON.parse(response.getContentText());
-    Logger.log(JSON.stringify(result, null, 2));
 }
 
 
